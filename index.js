@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from 'fs/promises'
 
 const app = express();
 const port = 7000
@@ -12,8 +13,17 @@ const port = 7000
 
 
 
-app.get("/amn" ,(req,res) =>{
-    res.send("Hello - World");
+app.get("/amn" , async(req,res) =>{
+    try{
+        const deta = await fs.readFile("./data.json",'utf8')
+        res.json(JSON.parse(deta));
+    }
+    catch (arr){
+        res.status(500).json({
+            arr: true,
+            massage: arr
+        })
+    }    
 })
 
 app.get("/anm/:id",(req,res)=>{
